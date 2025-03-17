@@ -1,3 +1,6 @@
+import { Slider } from "@/components/ui/slider"
+
+
 export default function Home() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -12,10 +15,9 @@ export default function Home() {
           <span className="text-4xl">🍽️</span>
         </button>
         <div className="mt-8">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
             最大どこまで歩く？
-          </button>
         </div>
+        <Slider defaultValue={[33]} max={100} step={1} />
       </main>
       <footer className="text-center grid-row-3">
         <p>このアプリケーションは位置情報(GPS)と、JavaScriptを使用します。</p>
