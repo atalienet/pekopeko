@@ -12,6 +12,9 @@ type Shop = {
     };
   };
   access: string;
+  address?: string;
+  open?: string;
+  close?: string;
 };
 
 type HotPepperResponse = {
@@ -29,6 +32,7 @@ export default function Result() {
   const [restaurants, setRestaurants] = useState<Shop[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedRestaurant, setSelectedRestaurant] = useState<Shop | null>(null);
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -76,7 +80,7 @@ export default function Result() {
 
       <div className="w-full max-w-7xl grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {restaurants.map((shop) => (
-          <Card key={shop.id} className="shadow-md">
+          <Card key={shop.id} className="shadow-md cursor-pointer" onClick={() => setSelectedRestaurant(shop)}>
             <CardHeader>
               <img
                 src={shop.photo.pc.l}
@@ -91,6 +95,60 @@ export default function Result() {
           </Card>
         ))}
       </div>
+
+      {selectedRestaurant && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div
+            className="absolute inset-0 bg-black opacity-70"
+            onClick={() => setSelectedRestaurant(null)}
+          ></div>
+
+          <div className="relative z-10 w-11/12 md:w-4/5 max-w-4xl max-h-[90vh] shadow-lg overflow-hidden bg-white rounded-lg flex flex-col md:flex-row animate-fade-in">
+            <button
+              onClick={() => setSelectedRestaurant(null)}
+              className="absolute top-2 right-2 z-20 bg-white/80 rounded-full p-1 hover:bg-white transition-colors cursor-pointer"
+              aria-label="閉じる"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            </button>
+
+            <div className="w-full md:w-1/2 h-64 md:h-auto">
+              <img
+                src={selectedRestaurant.photo.pc.l}
+                alt={selectedRestaurant.name}
+                className="w-full h-full object-cover md:rounded-l-lg"
+              />
+            </div>
+
+            <div className="w-full md:w-1/2 p-6 overflow-auto">
+              <h2 className="text-xl md:text-2xl font-bold mb-4">{selectedRestaurant.name}</h2>
+              <div className="space-y-3">
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-700">アクセス</h3>
+                  <p className="text-base text-gray-600">{selectedRestaurant.access}</p>
+                </div>
+
+                <div className="mb-4">
+                  <h4 className="font-bold text-gray-700">住所</h4>
+                  <p className="text-gray-600">{selectedRestaurant.address}</p>
+                </div>
+
+                <div className="mb-4">
+                  <h4 className="font-bold text-gray-700">営業時間</h4>
+                  <p className="text-gray-600">{selectedRestaurant.open}</p>
+                  {selectedRestaurant.close && (
+                    <p className="text-gray-600">定休日: {selectedRestaurant.close}</p>
+                  )}
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
