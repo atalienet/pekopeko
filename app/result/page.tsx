@@ -1,7 +1,9 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+import React from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 type Shop = {
   id: string;
@@ -20,21 +22,24 @@ type Shop = {
 type HotPepperResponse = {
   results: {
     shop: Shop[];
+    results_available: number;
   };
 };
 
 export default function Result() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const lat = searchParams.get("lat");
   const lng = searchParams.get("lng");
   const distance = searchParams.get("distance") || "1000";
-  const page = parseInt(searchParams.get("page") || "1", 10); // ページ番号を取得、デフォルトは1
-  const count = 28; // 1ページあたり25件
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const count = 28; // 1ページあたり28件
 
   const [restaurants, setRestaurants] = useState<Shop[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedRestaurant, setSelectedRestaurant] = useState<Shop | null>(null);
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -45,14 +50,17 @@ export default function Result() {
         const start = (page - 1) * count + 1;
         const apiUrl = `/api/hotpepper?lat=${lat}&lng=${lng}&distance=${distance}&start=${start}&count=${count}`;
         const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error("Failed to fetch data");
-        const data: HotPepperResponse = await response.json();
-        console.log("APIからのレスポンス:", data);
-        if (data.results && data.results.shop) {
-          setRestaurants(data.results.shop);
+        if (!response.ok) {
+          throw new Error(`API のリクエストが status ${response.status} で失敗しました。`);
         }
+        const data: HotPepperResponse = await response.json();
+        if (!data.results || !data.results.shop) {
+          throw new Error("Unexpected API response format");
+        }
+        setRestaurants(data.results.shop);
+        setTotalCount(data.results.results_available);
       } catch (err) {
-        setError("レストラン情報の取得に失敗しました");
+        setError(err instanceof Error ? err.message : "不明なエラーが発生しました");
         console.error("APIエラー:", err);
       } finally {
         setIsLoading(false);
@@ -61,6 +69,16 @@ export default function Result() {
 
     fetchRestaurants();
   }, [lat, lng, distance, page]);
+
+  const totalPages = Math.ceil(totalCount / count);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage < 1 || newPage > totalPages) return;
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   if (!lat || !lng) {
     return (
@@ -76,10 +94,10 @@ export default function Result() {
       <div className="mb-4 text-center">
         <p>緯度: {lat}, 経度: {lng}</p>
         <p>半径 {distance}m 以内</p>
-        <p>ページ: {page}</p>
+        <p>ページ: {page} / {totalPages}</p>
       </div>
 
-      {isLoading && <p className="text-center">レストラン情報を取得中...</p>}
+      {isLoading && <p className="text-center">レストラン情報を取得中です</p>}
       {error && <p className="text-center text-red-500">{error}</p>}
 
       <div className="w-full max-w-7xl grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -100,6 +118,51 @@ export default function Result() {
         ))}
       </div>
 
+      {totalPages > 1 && (
+        <Pagination className="mt-8">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => handlePageChange(page - 1)}
+                className={page === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+              />
+            </PaginationItem>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter((p) => {
+                if (p === 1 || p === totalPages) return true;
+                if (Math.abs(p - page) <= 2) return true;
+                return false;
+              })
+              .map((p, index, array) => (
+                <React.Fragment key={p}>
+                  {index > 0 && array[index - 1] !== p - 1 && (
+                    <PaginationItem>
+                      <PaginationLink className="cursor-default">...</PaginationLink>
+                    </PaginationItem>
+                  )}
+                  <PaginationItem>
+                    <PaginationLink
+                      onClick={() => handlePageChange(p)}
+                      isActive={p === page}
+                      className="cursor-pointer"
+                    >
+                      {p}
+                    </PaginationLink>
+                  </PaginationItem>
+                </React.Fragment>
+              ))}
+
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => handlePageChange(page + 1)}
+                className={page === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
+
       {selectedRestaurant && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div
@@ -107,13 +170,23 @@ export default function Result() {
             onClick={() => setSelectedRestaurant(null)}
           ></div>
 
-          <div className="relative z-10 w-11/12 md:w-4/5 max-w-4xl max-h-[90vh] shadow-lg overflow-hidden bg-white rounded-lg flex flex-col md:flex-row animate-fade-in">
+          <div className="relative z-10 w-11/12 md:w-4/5 max-w-4xl max-h-[90vh] shadow-lg overflow-hidden bg-white rounded-lg flex flex-col md:flex-row">
             <button
               onClick={() => setSelectedRestaurant(null)}
               className="absolute top-2 right-2 z-20 bg-white/80 rounded-full p-1 hover:bg-white transition-colors cursor-pointer"
               aria-label="閉じる"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M18 6 6 18"></path>
                 <path d="m6 6 12 12"></path>
               </svg>
@@ -134,19 +207,21 @@ export default function Result() {
                   <h3 className="text-sm font-semibold text-gray-700">アクセス</h3>
                   <p className="text-base text-gray-600">{selectedRestaurant.access}</p>
                 </div>
-
-                <div className="mb-4">
-                  <h4 className="font-bold text-gray-700">住所</h4>
-                  <p className="text-gray-600">{selectedRestaurant.address}</p>
-                </div>
-
-                <div className="mb-4">
-                  <h4 className="font-bold text-gray-700">営業時間</h4>
-                  <p className="text-gray-600">{selectedRestaurant.open}</p>
-                  {selectedRestaurant.close && (
-                    <p className="text-gray-600">定休日: {selectedRestaurant.close}</p>
-                  )}
-                </div>
+                {selectedRestaurant.address && (
+                  <div className="mb-4">
+                    <h4 className="font-bold text-gray-700">住所</h4>
+                    <p className="text-gray-600">{selectedRestaurant.address}</p>
+                  </div>
+                )}
+                {selectedRestaurant.open && (
+                  <div className="mb-4">
+                    <h4 className="font-bold text-gray-700">営業時間</h4>
+                    <p className="text-gray-600">{selectedRestaurant.open}</p>
+                    {selectedRestaurant.close && (
+                      <p className="text-gray-600">定休日: {selectedRestaurant.close}</p>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
