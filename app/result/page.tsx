@@ -28,6 +28,8 @@ export default function Result() {
   const lat = searchParams.get("lat");
   const lng = searchParams.get("lng");
   const distance = searchParams.get("distance") || "1000";
+  const page = parseInt(searchParams.get("page") || "1", 10); // ページ番号を取得、デフォルトは1
+  const count = 28; // 1ページあたり25件
 
   const [restaurants, setRestaurants] = useState<Shop[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,7 +42,8 @@ export default function Result() {
 
       try {
         setIsLoading(true);
-        const apiUrl = `/api/hotpepper?lat=${lat}&lng=${lng}&distance=${distance}`;
+        const start = (page - 1) * count + 1;
+        const apiUrl = `/api/hotpepper?lat=${lat}&lng=${lng}&distance=${distance}&start=${start}&count=${count}`;
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error("Failed to fetch data");
         const data: HotPepperResponse = await response.json();
@@ -57,7 +60,7 @@ export default function Result() {
     };
 
     fetchRestaurants();
-  }, [lat, lng, distance]);
+  }, [lat, lng, distance, page]);
 
   if (!lat || !lng) {
     return (
@@ -73,6 +76,7 @@ export default function Result() {
       <div className="mb-4 text-center">
         <p>緯度: {lat}, 経度: {lng}</p>
         <p>半径 {distance}m 以内</p>
+        <p>ページ: {page}</p>
       </div>
 
       {isLoading && <p className="text-center">レストラン情報を取得中...</p>}
@@ -143,7 +147,6 @@ export default function Result() {
                     <p className="text-gray-600">定休日: {selectedRestaurant.close}</p>
                   )}
                 </div>
-
               </div>
             </div>
           </div>

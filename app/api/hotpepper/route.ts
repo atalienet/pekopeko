@@ -5,6 +5,8 @@ export async function GET(request: Request) {
   const lat = searchParams.get('lat');
   const lng = searchParams.get('lng');
   const distance = searchParams.get('distance');
+  const start = searchParams.get('start') || '1'; // startパラメータを受け取る、デフォルトは1
+  const count = searchParams.get('count') || '28'; // countパラメータを受け取る、デフォルトは20
 
   if (!lat || !lng || !distance) {
     return NextResponse.json({ error: '有効でないパラメータがあります。' }, { status: 400 });
@@ -16,7 +18,7 @@ export async function GET(request: Request) {
   }
 
   const range = convertDistanceToRange(parseInt(distance));
-  const apiUrl = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${apiKey}&lat=${lat}&lng=${lng}&range=${range}&count=25&format=json`;
+  const apiUrl = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${apiKey}&lat=${lat}&lng=${lng}&range=${range}&start=${start}&count=${count}&format=json`;
 
   try {
     const response = await fetch(apiUrl);
