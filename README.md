@@ -65,7 +65,7 @@ HOTPEPPER_API_KEY=<入手したAPIキー>
 ```
 としてください
 
-4. `next dev` `next start` か [Zenn: nextjsをバックグラウンド実行する方法](https://zenn.dev/efficientyk/articles/fc78d8466add3a) を参照してください。
+4. `next dev` `next start` か [Zenn: nextjsをバックグラウンド実行する方法 (YKさん著)](https://zenn.dev/efficientyk/articles/fc78d8466add3a) を参照してください。
 
 ### コンセプト
 - 誰にでも使いやすいわかりやすいデザイン
