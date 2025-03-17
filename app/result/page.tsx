@@ -65,7 +65,27 @@ export default function Result() {
   if (!lat || !lng) {
     return (
       <div className="min-h-screen p-8 flex flex-col items-center justify-center">
-        <div>位置情報が見つかりません</div>
+        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md space-y-6 text-center">
+          <h2 className="text-xl font-bold text-gray-900">位置情報が見つかりません</h2>
+          <p className="text-gray-600">
+            位置情報の設定方法については
+            <a
+              href="https://stroly.com/guide/more-help/how-to-allow/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 underline"
+            >
+              こちら
+            </a>
+            をご覧ください
+          </p>
+          <button
+            onClick={() => router.push('/')}
+            className="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+          >
+            トップページに戻る
+          </button>
+        </div>
       </div>
     );
   }
