@@ -37,7 +37,7 @@ export function LocationHeader({ distance }: LocationHeaderProps) {
 
   return (
     <div className="mb-4 text-center">
-      <p>半径 {effectiveDistance}m 以内のお店が近い順に並んでいます。</p>
+      <p>半径 {effectiveDistance}m 以内のお店が近い順に並んでいます。【画像提供：ホットペッパー グルメ】</p>
     </div>
   );
 }
