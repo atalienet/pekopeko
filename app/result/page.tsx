@@ -1,5 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 type SearchParams = {
   lat?: string;
@@ -11,13 +12,31 @@ export default function Result() {
   const searchParams = useSearchParams();
   const lat = searchParams.get("lat");
   const lng = searchParams.get("lng");
-  const distance = searchParams.get("distance") || "1000"; // Default to 1000 if not specified
+  const distance = searchParams.get("distance") || "1000";
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      if (!lat || !lng) return;
+
+      try {
+        const apiUrl = `/api/hotpepper?lat=${lat}&lng=${lng}&distance=${distance}`;
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error("Failed to fetch data");
+        const data = await response.json();
+        console.log("APIからのレスポンス:", data);
+      } catch (err) {
+        console.error("APIエラー:", err);
+      }
+    };
+
+    fetchRestaurants();
+  }, [lat, lng, distance]);
 
   if (!lat || !lng) {
     return (
       <div className="min-h-screen p-8 flex flex-col items-center justify-center">
         <div>位置情報が見つかりません</div>
-              </div>
+      </div>
     );
   }
 
