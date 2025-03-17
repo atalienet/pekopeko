@@ -22,6 +22,9 @@ export function RestaurantCard({ shop, onClick }: RestaurantCardProps) {
       </CardHeader>
       <CardContent>
         <CardTitle className="text-lg font-bold">{shop.name}</CardTitle>
+        {shop.genre?.catch && (
+          <p className="text-sm text-black mt-2">{shop.genre.catch}</p>
+        )}
         <p className="text-sm text-gray-500 mt-2">{shop.access}</p>
       </CardContent>
     </Card>

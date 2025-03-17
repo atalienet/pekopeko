@@ -44,7 +44,10 @@ export function RestaurantModal({ restaurant, onClose }: RestaurantModalProps) {
         </div>
 
         <div className="w-full md:w-1/2 p-6 overflow-auto">
-          <h2 className="text-xl md:text-2xl font-bold mb-4">{restaurant.name}</h2>
+          <h2 className="text-xl md:text-2xl font-bold mb-2">{restaurant.name}</h2>
+          {restaurant.genre?.catch && (
+            <p className="text-sm text-black mb-4">{restaurant.genre.catch}</p>
+          )}
           <div className="space-y-3">
             <div>
               <h3 className="text-sm font-semibold text-gray-700">アクセス</h3>
