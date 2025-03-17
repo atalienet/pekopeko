@@ -20,7 +20,7 @@ export default function Home() {
               navigator.geolocation.getCurrentPosition(
                 (position) => {
                   const { latitude, longitude } = position.coords;
-                  console.log(`緯度: ${latitude}, 経度: ${longitude}`);
+                  window.location.href = `/result?lat=${latitude}&lng=${longitude}`;
                 },
                 (error) => {
                   console.error("位置情報の取得に失敗しました。", error.message);
