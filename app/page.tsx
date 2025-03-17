@@ -52,9 +52,12 @@ export default function Home() {
       </main>
       <footer className="text-center grid-row-3">
         <p>このアプリケーションは位置情報(GPS)と、JavaScriptを使用します。</p>
-        <p><a href="#" className="text-blue-500">GPSを有効にする方法</a></p>
-        <p><a href="#" className="text-blue-500">JavaScriptを有効にする方法</a></p>
-      </footer>
+          <div className="gap-4 mt-4">
+             <p>⚠️このページが正常に動作しない場合、JavaScriptが無効になっている可能性があります。</p>
+             <p><a href="https://www.gov-online.go.jp/recommended_environment/faq/js/" className="text-blue-500">JavaScriptを有効にする方法 (外部サイト: 日本 政府広報)</a></p>
+             <p><a href="https://stroly.com/guide/more-help/how-to-allow/" className="text-blue-500">GPSを有効にする方法 (外部サイト: Stroly)</a></p>
+          </div>
+        </footer>
     </div>
   );
 }
