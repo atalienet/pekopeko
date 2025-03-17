@@ -32,9 +32,20 @@ export default function Home() {
               alert("お使いのブラウザは位置情報に対応していません。");
             }
           }}
-          className="w-28 h-28 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-400 transition-colors"
+          className="group relative inline-flex h-[calc(56px+8px)] w-64 items-center justify-center
+            rounded-full bg-neutral-950 py-1 pl-8 pr-14 font-medium text-neutral-50
+            transition-all duration-300"
         >
-          <span className="text-6xl">🍽️</span>
+          <span className="z-10 pr-2">お店を探す</span>
+          <div
+            className="absolute right-1 inline-flex h-14 w-14 items-center justify-end
+              rounded-full bg-neutral-700 transition-[width] duration-300
+              group-hover:w-[calc(100%-8px)]"
+          >
+            <div className="mr-3.5 flex items-center justify-center">
+              <span className="text-2xl">🍣</span>
+            </div>
+          </div>
         </button>
         <div className="mt-8">
             最大どこまで歩く？ (半径<span className="ml-2">{distances[sliderValue]}m</span>)
@@ -54,7 +65,7 @@ export default function Home() {
         <p>このアプリケーションは位置情報(GPS)と、JavaScriptを使用します。</p>
           <div className="gap-4 mt-4">
              <p>⚠️このページが正常に動作しない場合、JavaScriptが無効になっている可能性があります。</p>
-             <p><a href="https://www.gov-online.go.jp/recommended_environment/faq/js/" className="text-blue-500">JavaScriptを有効にする方法 (外部サイト: 日本 政府広報)</a></p>
+             <p><a href="https://www.gov-online.go.jp/recommended_environment/faq/js/" className="text-blue-500">JavaScriptを有効にする方法 (外部サイト: 政府広報)</a></p>
              <p><a href="https://stroly.com/guide/more-help/how-to-allow/" className="text-blue-500">GPSを有効にする方法 (外部サイト: Stroly)</a></p>
           </div>
         </footer>
