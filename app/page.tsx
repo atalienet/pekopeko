@@ -14,7 +14,24 @@ export default function Home() {
         </p>
       </header>
       <main className="flex flex-col items-center justify-center grid-row-2">
-        <button className="w-28 h-28 bg-gray-300 rounded-full flex items-center justify-center">
+        <button
+          onClick={() => {
+            if ("geolocation" in navigator) {
+              navigator.geolocation.getCurrentPosition(
+                (position) => {
+                  const { latitude, longitude } = position.coords;
+                  console.log(`緯度: ${latitude}, 経度: ${longitude}`);
+                },
+                (error) => {
+                  console.error("位置情報の取得に失敗しました。", error.message);
+                }
+              );
+            } else {
+              alert("お使いのブラウザは位置情報に対応していません。");
+            }
+          }}
+          className="w-28 h-28 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-400 transition-colors"
+        >
           <span className="text-6xl">🍽️</span>
         </button>
         <div className="mt-8">
