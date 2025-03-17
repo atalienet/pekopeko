@@ -1,7 +1,10 @@
+"use client";
 import { Slider } from "@/components/ui/slider"
-
+import { useState } from "react"
 
 export default function Home() {
+  const [sliderValue, setSliderValue] = useState(2); // 初期値を1000m (index: 2)に設定
+
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <header className="text-center grid-row-1">
@@ -15,9 +18,16 @@ export default function Home() {
           <span className="text-4xl">🍽️</span>
         </button>
         <div className="mt-8">
-            最大どこまで歩く？
+            最大どこまで歩く？ <span className="ml-2">{[300, 500, 1000, 2000, 3000][sliderValue]}m</span>
         </div>
-        <Slider defaultValue={[33]} max={100} step={1} />
+        <Slider
+          defaultValue={[2]}
+          min={0}
+          max={4}
+          step={1}
+          value={[sliderValue]}
+          onValueChange={(value) => setSliderValue(value[0])}
+        />
       </main>
       <footer className="text-center grid-row-3">
         <p>このアプリケーションは位置情報(GPS)と、JavaScriptを使用します。</p>
