@@ -11,7 +11,16 @@ export default function Home() {
       <header className="text-center grid-row-1">
         <div className="flex items-center justify-center gap-2">
           <h1 className="text-4xl font-bold">Pekopeko</h1>
-          <a href="http://webservice.recruit.co.jp/"><img src="http://webservice.recruit.co.jp/banner/hotpepper-m.gif" alt="ホットペッパーグルメ Webサービス" width="88" height="35" border="0" title="ホットペッパーグルメ Webサービス" /></a>
+          <a href="http://webservice.recruit.co.jp/">
+            <img
+              src="http://webservice.recruit.co.jp/banner/hotpepper-m.gif"
+              alt="ホットペッパーグルメ Webサービス"
+              width="88"
+              height="35"
+              title="ホットペッパーグルメ Webサービス"
+              style={{ border: 0 }}
+            />
+          </a>
         </div>
         <p className="text-lg mt-2 max-w-prose mx-auto">
           下のボタンを押して、近くのお食事処を探し、おなかを満たしましょう！
