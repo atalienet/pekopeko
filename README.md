@@ -39,6 +39,7 @@ Pekopeko
     - 営業時間
     - Google Maps に表示するボタン
     - サムネイル
+    - (追加したい機能): Google Mapsの埋め込み
 
 
  ### フレームワーク
