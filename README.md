@@ -52,6 +52,20 @@ Pekopeko
 ### テーブル定義などの設計ドキュメント
 - 今回はデータベースを使用していないため、ありません
 
+
+### 開発環境構築手順
+1. Node.js 18以上が動くことを確認してください。
+    - Nix Flake も入れているので、Nixで環境を再現することも可能です。
+2. このリポジトリをクローンします
+3. [ホットペッパーグルメのAPIの利用登録サイト](https://webservice.recruit.co.jp/register) より、APIキーを入手してください。
+3. `.env.local` をルートに配置し、
+```
+HOTPEPPER_API_KEY=<入手したAPIキー>
+```
+としてください
+
+4. `next dev` `next start` か [Zenn: nextjsをバックグラウンド実行する方法](https://zenn.dev/efficientyk/articles/fc78d8466add3a) を参照してください。
+
 ### コンセプト
 - 誰にでも使いやすいわかりやすいデザイン
 - シンプルと使いやすさを両立
