@@ -1,8 +1,7 @@
 "use client";
+import React from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { RestaurantModal } from "@/components/restaurantModal";
 import type { Shop } from "@/types/shop";
 import { RestaurantCard } from "@/components/restaurantCard";
