@@ -92,4 +92,5 @@ HOTPEPPER_API_KEY=<入手したAPIキー>
 - ページを切り替えたときにきちんと一番上に行くみたいな細かい工夫もあります
 - スライダーを使うのは妙案だと思いました
 - Google Mapsをすぐに開けるようにしたのは様々な問題の解決策になるでしょう
+- https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout というエラーはあまりよく理解できておらずAIにかなり頼ったので、このあたりは要学習
 
