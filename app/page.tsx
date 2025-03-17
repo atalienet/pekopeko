@@ -4,6 +4,7 @@ import { useState } from "react"
 
 export default function Home() {
   const [sliderValue, setSliderValue] = useState(2); // 初期値を1000m (index: 2)に設定
+  const distances = [300, 500, 1000, 2000, 3000];
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -20,7 +21,8 @@ export default function Home() {
               navigator.geolocation.getCurrentPosition(
                 (position) => {
                   const { latitude, longitude } = position.coords;
-                  window.location.href = `/result?lat=${latitude}&lng=${longitude}`;
+                  const selectedDistance = distances[sliderValue];
+                  window.location.href = `/result?lat=${latitude}&lng=${longitude}&distance=${selectedDistance}`;
                 },
                 (error) => {
                   console.error("位置情報の取得に失敗しました。", error.message);
@@ -35,7 +37,7 @@ export default function Home() {
           <span className="text-6xl">🍽️</span>
         </button>
         <div className="mt-8">
-            最大どこまで歩く？ (半径<span className="ml-2">{[300, 500, 1000, 2000, 3000][sliderValue]}m</span>)
+            最大どこまで歩く？ (半径<span className="ml-2">{distances[sliderValue]}m</span>)
         </div>
         <div className="w-full max-w-[33%] mt-2">
           <Slider
