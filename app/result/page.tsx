@@ -1,14 +1,14 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RestaurantModal } from "@/components/restaurantModal";
-import type { Shop } from "@/types/shop";
+import type { Shop, HotPepperResponse } from "@/types/shop";
 import { RestaurantCard } from "@/components/restaurantCard";
 import { RestaurantPagination } from "@/components/restaurantPagination";
 import { LocationHeader } from "@/components/locationHeader";
 
-export default function Result() {
+function ResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const lat = searchParams.get("lat");
@@ -141,5 +141,13 @@ export default function Result() {
         />
       )}
     </div>
+  );
+}
+
+export default function Result() {
+  return (
+    <Suspense fallback={<div className="min-h-screen p-8 flex items-center justify-center">読み込み中...</div>}>
+      <ResultContent />
+    </Suspense>
   );
 }
