@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 簡易仕様書
+## アプリ名
+Pekopeko
 
-## Getting Started
+## 対象OSおよびブラウザ
+いずれも最新版で、全デバイス含む
+- Google Chrome
+- Safari
+- Firefox
 
-First, run the development server:
+## 開発環境/言語
+- VS Code
+- Nix
+- Node.js
+- TypeScript
+- JavaScript
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 開発期間
+- 構想1週間
+- プロトタイプ作成(Chakra UI)にて2日
+- 作成 1日
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 機能概要
+### ホットペッパーグルメのAPIを使用し、近くのお食事処を表示する機能
+### 機能一覧
+- GPSによる位置情報を取得
+- APIと連携し、カード型でお店を一覧表示
+ - 店名
+ - キャッチフレーズ
+ - アクセス
+ - サムネイル
+- お店の検索範囲をスライダーで変更
+- お店のカードを押すことで、詳細情報を表示
+ - 店名
+ - キャッチフレーズ
+ - アクセス
+ - 住所
+ - 営業時間
+ - Google Maps に表示するボタン
+ - サムネイル
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+ ### フレームワーク
+- Next.js (var. 15)
+- Tailwind CSS (var. 4)
+- shadcn/ui
 
-To learn more about Next.js, take a look at the following resources:
+- その他ボタンのデザインに https://buttons.ibelick.com/ のものを使用
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### テーブル定義などの設計ドキュメント
+- 今回はデータベースを使用していないため、ありません
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### コンセプト
+- 誰にでも使いやすいわかりやすいデザイン
+- シンプルと使いやすさを両立
+- Tailwindなどを久しぶりに使ってみたかった
 
-## Deploy on Vercel
+### こだわったポイント
+- スライダーデザイン
+- URLから距離を変更したときの処理
+- Google Mapsに表示できる機能
+- ページ切り替え時に一番上へ
+- APIのプロキシ
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### デザイン面でこだわったポイント
+- UIコンポーネントを使い、お手軽にリッチなデザインを
+- レスポンシブなデザイン
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+### 技術面でアドバイスして欲しいポイント
+- 営業中かどうかを書いてくれるロジックを書くならどうするか? (書き方がバラバラなのでかなり大変だと思います。)
+- distance周りが冗長なコードになっていると思うので、より理想的な実装はどうなのか？
+
+### 自己評価
+- UIコンポーネントを使うのはずるいかもしれないのですが、リッチなデザインになって良かったです。
+- ページを切り替えたときにきちんと一番上に行くみたいな細かい工夫もありますよ
+
