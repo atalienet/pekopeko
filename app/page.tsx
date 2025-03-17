@@ -14,20 +14,22 @@ export default function Home() {
         </p>
       </header>
       <main className="flex flex-col items-center justify-center grid-row-2">
-        <button className="w-24 h-24 bg-blue-500 rounded-full flex items-center justify-center">
-          <span className="text-4xl">🍽️</span>
+        <button className="w-28 h-28 bg-gray-300 rounded-full flex items-center justify-center">
+          <span className="text-6xl">🍽️</span>
         </button>
         <div className="mt-8">
-            最大どこまで歩く？ <span className="ml-2">{[300, 500, 1000, 2000, 3000][sliderValue]}m</span>
+            最大どこまで歩く？ (半径<span className="ml-2">{[300, 500, 1000, 2000, 3000][sliderValue]}m</span>)
         </div>
-        <Slider
-          defaultValue={[2]}
-          min={0}
-          max={4}
-          step={1}
-          value={[sliderValue]}
-          onValueChange={(value) => setSliderValue(value[0])}
-        />
+        <div className="w-full max-w-[33%] mt-2">
+          <Slider
+            defaultValue={[2]}
+            min={0}
+            max={4}
+            step={1}
+            value={[sliderValue]}
+            onValueChange={(value) => setSliderValue(value[0])}
+          />
+        </div>
       </main>
       <footer className="text-center grid-row-3">
         <p>このアプリケーションは位置情報(GPS)と、JavaScriptを使用します。</p>
