@@ -1,4 +1,4 @@
-import { type Shop } from "@/types/shop.ts";
+import { type Shop } from "@/types/shop";
 
 type RestaurantModalProps = {
   restaurant: Shop;
