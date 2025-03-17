@@ -9,7 +9,10 @@ export default function Home() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <header className="text-center grid-row-1">
-        <h1 className="text-4xl font-bold">Pekopeko</h1>
+        <div className="flex items-center justify-center gap-2">
+          <h1 className="text-4xl font-bold">Pekopeko</h1>
+          <a href="http://webservice.recruit.co.jp/"><img src="http://webservice.recruit.co.jp/banner/hotpepper-m.gif" alt="ホットペッパーグルメ Webサービス" width="88" height="35" border="0" title="ホットペッパーグルメ Webサービス" /></a>
+        </div>
         <p className="text-lg mt-2 max-w-prose mx-auto">
           下のボタンを押して、近くのお食事処を探し、おなかを満たしましょう！
         </p>
