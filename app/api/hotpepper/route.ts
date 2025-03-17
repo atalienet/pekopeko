@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   }
 
   const range = convertDistanceToRange(parseInt(distance));
-  const apiUrl = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${apiKey}&lat=${lat}&lng=${lng}&range=${range}&order=4&format=json`;
+  const apiUrl = `http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=${apiKey}&lat=${lat}&lng=${lng}&range=${range}&count=25&format=json`;
 
   try {
     const response = await fetch(apiUrl);
@@ -32,5 +32,5 @@ function convertDistanceToRange(meters: number): number {
   if (meters <= 500) return 2;
   if (meters <= 1000) return 3;
   if (meters <= 2000) return 4;
-  return 5; // 3000m
+  return 5; // 3000mの時
 }
