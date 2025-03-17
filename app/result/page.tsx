@@ -83,7 +83,7 @@ export default function Result() {
             onClick={() => router.push('/')}
             className="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
           >
-            トップページに戻る
+            ホームに戻る
           </button>
         </div>
       </div>
@@ -92,7 +92,18 @@ export default function Result() {
 
   return (
     <div className="min-h-screen p-8 flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-4">現在地周辺のグルメ情報</h1>
+      <div className="w-full max-w-7xl flex justify-between items-center mb-4">
+        <div className="flex-1" /> {/* 左側のスペーサー */}
+        <h1 className="text-2xl font-bold text-center flex-2">最寄りのグルメ</h1>
+        <div className="flex-1 flex justify-end"> {/* 右側にボタンを配置 */}
+          <button
+            onClick={() => router.push('/')}
+            className="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+          >
+            ホームに戻る
+          </button>
+        </div>
+      </div>
 
       <LocationHeader
         lat={lat}
